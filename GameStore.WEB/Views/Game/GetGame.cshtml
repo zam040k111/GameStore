@@ -1,0 +1,90 @@
+﻿@model GameViewModel
+
+@{
+    ViewBag.Title = "Game";
+    Layout = "_Layout";
+}
+
+<h4>Game</h4>
+<span class="float-right">
+    <a class="btn btn-primary" href="@Model.Id/update">Edit</a>
+    <a class="btn btn-primary" href="@Model.Id/remove" onclick="return confirm('Are you sure? Delete @Model.Name?')">Remove</a>
+</span>
+
+<div class="form-group row">
+    @Html.LabelFor(m => m.Key, new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @Html.DisplayFor(m => m.Key)
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @Html.DisplayFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(m => m.Description, new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @Html.DisplayFor(m => m.Description)
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(m => m.Price, new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @Html.DisplayFor(m => m.Price)
+        $
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(m => m.UnitsInStock, "Units is stock", new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @Html.DisplayFor(m => m.UnitsInStock)
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(m => m.Publisher, "Publisher", new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @if (Model.Publisher != null)
+        {
+            <a asp-controller="Publisher" asp-action="GetPublisher" asp-route-id="@Model.Publisher.Id">
+                @Model.Publisher.CompanyName
+            </a>
+        }
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(m => m.GamePlatformTypesId, "Genres",
+        new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @foreach (var i in Model.GameGenres)
+        {
+            <div>@i.Genre.Name</div>
+        }
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(m => m.GamePlatformTypesId, "Platform types",
+        new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @foreach (var i in Model.GamePlatformTypes)
+        {
+            <div>@i.PlatformType.Type</div>
+        }
+    </div>
+</div>
+<div class="form-group row">
+    @Html.LabelFor(m => m.Discontinued, new { @class = "col-md-2 col-form-label" })
+    <div class="col-md-6 col-form-label">
+        @Html.DisplayFor(m => m.Discontinued)
+    </div>
+</div>
+<span class="form-group">
+    <a class="btn btn-primary" asp-controller="Game" asp-action="Download" asp-route-key="@Model.Key" target="_blank">Download</a>
+</span>
+<span class="form-group">
+    <a class="btn btn-primary" asp-controller="Basket" asp-action="Buy" asp-route-key="@Model.Key">Add to basket</a>
+</span>
+<span class="form-group">
+    <a class="btn btn-primary" asp-controller="Game" asp-action="Comments" asp-route-key="@Model.Key">Comments</a>
+</span>
